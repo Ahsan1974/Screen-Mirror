@@ -174,7 +174,9 @@ class MainActivity : AppCompatActivity() {
         if (viewing) {
             banner.text = getString(R.string.banner_viewing, snapshot.clientName.ifBlank { "your laptop" })
         }
-        pairButton.isEnabled = snapshot.pairingWaiting
+        val digitsReady = pairInput.text.toString().trim().length == 6
+        pairButton.isEnabled = (snapshot.clientSocketOpen && !snapshot.clientConnected) ||
+            (digitsReady && snapshot.pairingWaiting)
         shareButton.isEnabled = !snapshot.sharing
         stopShareButton.isEnabled = snapshot.sharing
         transferText.text = snapshot.transferLine

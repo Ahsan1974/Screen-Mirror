@@ -45,6 +45,10 @@ class RemoteForegroundService : Service() {
     private val tick = object : Runnable {
         override fun run() {
             Hub.server?.sendStatus()
+            val ip = NetUtils.wifiIpv4()
+            if (ip != "unknown" && ip != AppState.snapshot.localIp) {
+                AppState.update { it.copy(localIp = ip) }
+            }
             handler.postDelayed(this, 1000)
         }
     }
@@ -87,13 +91,18 @@ class RemoteForegroundService : Service() {
         try {
             server.start()
             val ip = NetUtils.wifiIpv4()
-            AppState.update {
-                it.copy(
-                    serverRunning = true,
-                    localIp = ip,
-                    port = store.port,
-                    statusLine = "Waiting for your laptop",
-                )
+            AppState.update { current ->
+                val base = current.copy(serverRunning = true, localIp = ip, port = store.port)
+                if (server.hasClient()) {
+                    base
+                } else {
+                    base.copy(
+                        clientSocketOpen = false,
+                        clientConnected = false,
+                        pairingWaiting = false,
+                        statusLine = "Waiting for your laptop",
+                    )
+                }
             }
             AppState.log("Listening on $ip:${store.port}")
         } catch (error: Exception) {
@@ -179,7 +188,16 @@ class RemoteForegroundService : Service() {
                     webHost?.socketPort = port
                     nsd.register(store.phoneName, port, store.phoneId)
                     val ip = NetUtils.wifiIpv4()
-                    AppState.update { it.copy(localIp = ip, port = port, statusLine = "Waiting for your laptop") }
+                    AppState.update { current ->
+                        if (current.clientSocketOpen) current.copy(localIp = ip, port = port)
+                        else current.copy(
+                            localIp = ip,
+                            port = port,
+                            clientSocketOpen = false,
+                            pairingWaiting = false,
+                            statusLine = "Waiting for your laptop",
+                        )
+                    }
                     AppState.log("Listening on $ip:$port")
                 }
             } catch (error: Exception) {

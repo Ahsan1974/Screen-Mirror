@@ -17,6 +17,7 @@ data class Snapshot(
     val accessibilityEnabled: Boolean = false,
     val localIp: String = "",
     val port: Int = DeviceStore.DEFAULT_PORT,
+    val clientSocketOpen: Boolean = false,
     val pairingWaiting: Boolean = false,
     val statusLine: String = "Starting…",
     val transferLine: String = "",

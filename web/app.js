@@ -115,7 +115,7 @@ function connect(host) {
   ws.onclose = () => {
     if (socket !== ws) return;
     authed = false;
-    $("pair").hidden = true;
+    hidePair();
     if (reconnect && privateHost(host)) {
       setStatus("Connection lost. Attempting to reconnect…");
       retryTimer = setTimeout(() => connect(host), 2000);
@@ -148,10 +148,22 @@ function onText(raw) {
   }
 }
 
+function showPair(code) {
+  $("pair-code").textContent = code;
+  $("pair").classList.add("is-open");
+  $("pair").hidden = false;
+}
+
+function hidePair() {
+  $("pair").classList.remove("is-open");
+  $("pair").hidden = true;
+  $("pair-code").textContent = "------";
+  pairingCode = "";
+}
+
 function beginPair(message) {
   if (!pairingCode) pairingCode = code6();
-  $("pair-code").textContent = pairingCode;
-  $("pair").hidden = pairingCode.length !== 6;
+  showPair(pairingCode);
   send({
     type: "pair_begin",
     laptop_name: laptopName,
@@ -175,8 +187,7 @@ function onPairSubmit(message) {
 
 function markAuthed(message) {
   authed = true;
-  pairingCode = "";
-  $("pair").hidden = true;
+  hidePair();
   $("device-line").textContent = message.phone_name || "My Phone";
   if (message.screen_width) screenW = message.screen_width;
   if (message.screen_height) screenH = message.screen_height;

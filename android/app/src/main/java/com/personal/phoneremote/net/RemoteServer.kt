@@ -63,6 +63,7 @@ class RemoteServer(
         val replaced = synchronized(lock) {
             val current = client
             if (current != null && current != conn && current.isOpen) {
+                AppState.log("Rejected a second laptop because one is already connected")
                 conn.close(4001, "busy")
                 return
             }
@@ -71,6 +72,14 @@ class RemoteServer(
         }
         if (replaced) {
             isAuthed = false
+            AppState.update {
+                it.copy(
+                    clientSocketOpen = true,
+                    clientConnected = false,
+                    pairingWaiting = true,
+                    statusLine = "Enter the code shown on the laptop",
+                )
+            }
             AppState.log("Laptop socket opened")
         }
     }
@@ -86,13 +95,20 @@ class RemoteServer(
             }
         }
         if (wasActive) {
-            AppState.update {
-                it.copy(
-                    clientConnected = false,
-                    clientName = "",
-                    pairingWaiting = false,
-                    statusLine = "Waiting for your laptop",
-                )
+            // A new laptop may already have connected before this update runs.
+            AppState.update { current ->
+                val takenOver = synchronized(lock) { client != null }
+                if (takenOver) {
+                    current
+                } else {
+                    current.copy(
+                        clientSocketOpen = false,
+                        clientConnected = false,
+                        clientName = "",
+                        pairingWaiting = false,
+                        statusLine = "Waiting for your laptop",
+                    )
+                }
             }
             AppState.log("Laptop disconnected")
         }
@@ -120,10 +136,12 @@ class RemoteServer(
         AppState.log("Network error: ${ex.message ?: "unknown"}")
     }
 
+    fun hasClient(): Boolean = synchronized(lock) { client?.isOpen == true }
+
     fun submitPairCode(code: String) {
         val current = synchronized(lock) { client }
         if (current == null || !current.isOpen) {
-            AppState.log("Open the laptop app and tap Connect first")
+            AppState.log("The laptop disconnected. Wait until it shows a code, then tap Pair.")
             return
         }
         sendText(
@@ -177,7 +195,13 @@ class RemoteServer(
             isAuthed = false
         }
         AppState.update {
-            it.copy(clientConnected = false, clientName = "", pairingWaiting = false, statusLine = "Waiting for your laptop")
+            it.copy(
+                clientSocketOpen = false,
+                clientConnected = false,
+                clientName = "",
+                pairingWaiting = false,
+                statusLine = "Waiting for your laptop",
+            )
         }
     }
 
@@ -257,6 +281,7 @@ class RemoteServer(
             isAuthed = false
             AppState.update {
                 it.copy(
+                    clientSocketOpen = true,
                     pairingWaiting = true,
                     clientConnected = false,
                     statusLine = "Enter the code shown on $laptopName",
@@ -288,6 +313,7 @@ class RemoteServer(
         val name = laptopName.ifBlank { "Laptop" }
         AppState.update {
             it.copy(
+                clientSocketOpen = true,
                 clientConnected = true,
                 clientName = name,
                 pairingWaiting = false,
