@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Phone Remote</string>
+    <string name="accessibility_description">Allows your own laptop to send touch and keyboard input to this phone while Phone Remote is connected. Phone Remote reads the focused text field only to insert what you type on the laptop. Turn this on only if you installed the app yourself.</string>
+    <string name="banner_viewing">Your screen is being viewed by %1$s</string>
+    <string name="projection_required">Screen capture permission is required.\n\nOpen the Android application and allow screen capture.</string>
+    <string name="accessibility_required">Back, Home, Recents, touch, and typing need the Phone Remote accessibility service. In the Android app, tap Enable accessibility, then turn Phone Remote on. If Android blocks it, open App info, choose the menu, and tap Allow restricted settings.</string>
+    <string name="clipboard_blocked">Android blocked a background clipboard read. Open the Phone Remote app and tap Send clipboard to laptop.</string>
+</resources>

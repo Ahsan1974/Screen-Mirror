@@ -1,0 +1,23 @@
+# Laptop name shown on the phone during pairing.
+device_name: My PC
+
+network:
+  # Default port for manual connect. Discovered phones use the port they advertise.
+  port: 8765
+
+stream:
+  # Maximum width and height. The phone keeps its real aspect ratio inside this box.
+  # 1280x1280 is about 720p on the long side for a portrait phone.
+  width: 1280
+  height: 1280
+  fps: 15
+  # low, medium, high, or a JPEG quality number from 30 to 90
+  quality: medium
+
+connection:
+  reconnect: true
+  reconnect_interval_sec: 2
+
+clipboard:
+  # Copying text on the laptop sends it to the phone while you are connected.
+  auto_sync: true

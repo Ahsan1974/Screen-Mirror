@@ -1,0 +1,132 @@
+:root {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --ink: #1c1914;
+  --muted: #5c564c;
+  --card: #fffdf8;
+  --line: #e3d9cc;
+  --accent: #0c6b66;
+  --accent-ink: #f7fffd;
+  --stage: #e7e0d4;
+  --danger: #8d2f2f;
+  --shadow: 0 24px 60px rgba(48, 36, 18, 0.12);
+  --font: "Avenir Next", "Segoe UI", sans-serif;
+  --display: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121411;
+  --ink: #f4efe6;
+  --muted: #b7b0a4;
+  --card: #1c1f1a;
+  --line: #31362d;
+  --accent: #8ed9d2;
+  --accent-ink: #10211f;
+  --stage: #0c0e0b;
+  --danger: #ffb4b4;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+.top, .viewer, .portal { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0 8px;
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand h1, .hero h2 { font-family: var(--display); font-weight: 500; margin: 0; }
+.brand h1 { font-size: 28px; }
+.mark {
+  width: 18px; height: 30px; border-radius: 5px;
+  border: 2px solid var(--accent); display: inline-block;
+}
+.eyebrow {
+  margin: 0; letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 11px; color: var(--accent);
+}
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.status { margin: 0; color: var(--muted); font-size: 14px; }
+
+button, input, textarea {
+  font: inherit; color: var(--ink);
+}
+button {
+  border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+  padding: 10px 16px; cursor: pointer;
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+button.ghost { background: transparent; }
+button:hover { filter: brightness(1.05); }
+
+.hero {
+  margin-top: 28px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 28px; padding: 36px; box-shadow: var(--shadow);
+}
+.hero h2 { font-size: clamp(36px, 5vw, 58px); line-height: 1.05; max-width: 16ch; }
+.lead { max-width: 62ch; color: var(--muted); font-size: 18px; }
+.join { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+label { display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+input, textarea {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+}
+.steps { color: var(--muted); padding-left: 18px; }
+.steps li { margin: 6px 0; }
+
+.viewer {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px;
+  align-items: start; padding-bottom: 24px;
+}
+.stage {
+  min-height: calc(100vh - 120px);
+  display: grid; place-items: center;
+  background: var(--stage); border-radius: 28px; padding: 18px;
+}
+.device { position: relative; height: min(86vh, 900px); }
+canvas {
+  display: block; height: 100%; width: auto; max-width: 100%;
+  border-radius: 22px; background: #111; cursor: crosshair;
+  box-shadow: var(--shadow);
+}
+.placeholder {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  margin: 0; color: #d9d3c8; text-align: center; padding: 20px; pointer-events: none;
+}
+.dock {
+  background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 16px;
+  display: grid; gap: 10px;
+}
+.device-line { margin: 0; font-family: var(--display); font-size: 26px; }
+.meta, .hint { margin: 0; color: var(--muted); font-size: 13px; }
+.nav, .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.nav button, .row button { flex: 1; }
+.file input { width: 100%; }
+
+.pair {
+  position: fixed; inset: 0; background: rgba(18, 16, 12, 0.46);
+  display: grid; place-items: center; padding: 20px;
+}
+.pair-card {
+  background: var(--card); color: var(--ink); border-radius: 24px; padding: 28px;
+  text-align: center; min-width: min(420px, 100%);
+}
+.code {
+  font-family: "Segoe UI", sans-serif; font-size: 56px; letter-spacing: 0.18em;
+  margin: 8px 0; color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .join, .viewer { grid-template-columns: 1fr; }
+  .stage { min-height: 70vh; }
+  .device { height: 72vh; }
+}

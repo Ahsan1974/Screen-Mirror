@@ -1,0 +1,6 @@
+# Personal LAN remote-control app. Python 3.11+.
+# JPEG frames are decoded by PySide6, so OpenCV, NumPy, and Pillow are not required.
+PySide6>=6.6
+websockets>=12.0,<14
+zeroconf>=0.131
+PyYAML>=6.0

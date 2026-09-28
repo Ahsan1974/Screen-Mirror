@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Screen Mirror</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">Same Wi-Fi</p>
+        <h1>Screen Mirror</h1>
+      </div>
+    </div>
+    <div class="top-actions">
+      <p id="status" class="status">Not connected</p>
+      <button id="theme" type="button" class="ghost">Light</button>
+    </div>
+  </header>
+
+  <main id="portal" class="portal">
+    <section class="hero">
+      <p class="eyebrow">Office laptop and your phone</p>
+      <h2>Open the address on your phone. The screen stays on your network.</h2>
+      <p class="lead">
+        This page does not carry the picture through the internet.
+        Type the IP shown in the Phone Remote app. Your browser will open the phone directly.
+      </p>
+      <form id="join" class="join">
+        <label>
+          Phone IP
+          <input id="phone-ip" inputmode="decimal" autocomplete="off" placeholder="192.168.100.35" required>
+        </label>
+        <label>
+          This laptop’s name
+          <input id="laptop-name" maxlength="40" placeholder="Office laptop" required>
+        </label>
+        <button type="submit" class="primary">Open phone</button>
+      </form>
+      <ol class="steps">
+        <li>Phone and laptop on the same Wi-Fi. VPN off.</li>
+        <li>Open Phone Remote on the phone and read the laptop address.</li>
+        <li>Enter that IP here. Pair with the code this page shows.</li>
+        <li>On the phone, start screen sharing.</li>
+      </ol>
+    </section>
+  </main>
+
+  <main id="viewer" class="viewer" hidden>
+    <section class="stage">
+      <div id="device" class="device">
+        <canvas id="screen" width="360" height="780" tabindex="0"></canvas>
+        <p id="placeholder" class="placeholder">Start screen sharing on the phone</p>
+      </div>
+    </section>
+    <aside class="dock">
+      <p id="device-line" class="device-line">My Phone</p>
+      <p id="meta" class="meta">Wi-Fi</p>
+      <div class="nav">
+        <button type="button" data-nav="BACK">Back</button>
+        <button type="button" data-nav="HOME">Home</button>
+        <button type="button" data-nav="RECENTS">Recents</button>
+      </div>
+      <label class="clip-label">
+        Text for the phone clipboard
+        <textarea id="clip" rows="3" placeholder="Paste or type, then send"></textarea>
+      </label>
+      <div class="row">
+        <button id="send-clip" type="button" class="primary">Send to phone</button>
+        <button id="get-clip" type="button">Get from phone</button>
+      </div>
+      <label class="file">
+        Send a file
+        <input id="file" type="file">
+      </label>
+      <p id="transfer" class="meta"></p>
+      <p class="hint">Click the screen, then type. Right-click is a long press. Ctrl+C stays on this laptop; use Send to phone for that text.</p>
+      <button id="disconnect" type="button" class="ghost">Disconnect</button>
+    </aside>
+  </main>
+
+  <div id="pair" class="pair" hidden>
+    <div class="pair-card">
+      <p class="eyebrow">Pair the phone</p>
+      <p id="pair-code" class="code">------</p>
+      <p>Type this code in Phone Remote and tap Pair.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

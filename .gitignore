@@ -1,0 +1,36 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local data (pairing tokens stay on this computer)
+data/
+logs/*.log
+
+# Files received from the phone
+downloads/*
+!downloads/.gitkeep
+
+# Android / Android Studio
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/keystore.properties
+android/app/src/main/assets/web/
+android/.idea/
+android/*.iml
+android/app/*.iml
+*.keystore
+*.jks
+*.apk
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel local project link
+.vercel/

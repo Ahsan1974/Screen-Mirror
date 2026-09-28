@@ -1,0 +1,1 @@
+"""Mouse and keyboard translation."""
