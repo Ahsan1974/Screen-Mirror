@@ -1,0 +1,9 @@
+venv
+android/.gradle
+android/app/build
+android/build
+*.apk
+*.jks
+data
+logs
+.venv

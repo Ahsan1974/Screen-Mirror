@@ -151,7 +151,7 @@ function onText(raw) {
 function beginPair(message) {
   if (!pairingCode) pairingCode = code6();
   $("pair-code").textContent = pairingCode;
-  $("pair").hidden = false;
+  $("pair").hidden = pairingCode.length !== 6;
   send({
     type: "pair_begin",
     laptop_name: laptopName,

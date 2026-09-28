@@ -26,12 +26,12 @@
       <p class="eyebrow">Office laptop and your phone</p>
       <h2>Open the address on your phone. The screen stays on your network.</h2>
       <p class="lead">
-        This page does not carry the picture through the internet.
-        Type the IP shown in the Phone Remote app. Your browser will open the phone directly.
+        Type the IP from the Phone Remote app, then click Open phone.
+        This page does not show a pairing code. The next page does.
       </p>
       <form id="join" class="join">
         <label>
-          Phone IP
+          Phone IP from the Phone Remote app
           <input id="phone-ip" inputmode="decimal" autocomplete="off" placeholder="192.168.100.35" required>
         </label>
         <label>
@@ -42,8 +42,9 @@
       </form>
       <ol class="steps">
         <li>Phone and laptop on the same Wi-Fi. VPN off.</li>
-        <li>Open Phone Remote on the phone and read the laptop address.</li>
-        <li>Enter that IP here. Pair with the code this page shows.</li>
+        <li>On the phone, open Phone Remote and copy the IP, such as 192.168.100.35. Paste that number above. Do not paste a code here.</li>
+        <li>Click Open phone. The browser leaves this site and opens the phone.</li>
+        <li>The next page shows a 6-digit code. On the phone, type that code in Pairing code and tap Pair.</li>
         <li>On the phone, start screen sharing.</li>
       </ol>
     </section>
@@ -85,9 +86,9 @@
 
   <div id="pair" class="pair" hidden>
     <div class="pair-card">
-      <p class="eyebrow">Pair the phone</p>
+      <p class="eyebrow">Type this on the phone</p>
       <p id="pair-code" class="code">------</p>
-      <p>Type this code in Phone Remote and tap Pair.</p>
+      <p>On the phone, open Phone Remote. Type these 6 digits in Pairing code and tap Pair. Do not paste them into this website.</p>
     </div>
   </div>
 
