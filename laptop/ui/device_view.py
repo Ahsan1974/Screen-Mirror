@@ -6,9 +6,9 @@ import time
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QColor, QImage, QPainter
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QFrame, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
-from laptop.input.keyboard import translate_key
+from laptop.input.keyboard import is_newline, is_paste, translate_key
 from laptop.input.mouse import letterbox, map_pointer
 from laptop.network.protocol import VideoFrame
 
@@ -18,6 +18,7 @@ class ScreenWidget(QWidget):
 
     pointer = Signal(str, int, int, str)
     key_typed = Signal(str)
+    paste_requested = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -97,6 +98,16 @@ class ScreenWidget(QWidget):
         event.accept()
 
     def keyPressEvent(self, event) -> None:
+        if is_paste(event.key(), event.modifiers()):
+            text = QApplication.clipboard().text() or ""
+            if text:
+                self.paste_requested.emit(text)
+            event.accept()
+            return
+        if is_newline(event.key(), event.modifiers()):
+            self.key_typed.emit("NEWLINE")
+            event.accept()
+            return
         message = translate_key(event.key(), event.text(), event.modifiers())
         if message is None:
             super().keyPressEvent(event)
@@ -123,6 +134,8 @@ class ScreenWidget(QWidget):
 class DeviceView(QWidget):
     pointer = Signal(str, int, int, str)
     key_typed = Signal(str)
+    paste_requested = Signal(str)
+    screen_text_requested = Signal()
     nav_requested = Signal(str)
     file_requested = Signal()
     files_dropped = Signal(list)
@@ -146,6 +159,7 @@ class DeviceView(QWidget):
         self.screen = ScreenWidget()
         self.screen.pointer.connect(self.pointer.emit)
         self.screen.key_typed.connect(self.key_typed.emit)
+        self.screen.paste_requested.connect(self.paste_requested.emit)
         bezel = QFrame()
         bezel.setObjectName("bezel")
         bezel_layout = QVBoxLayout(bezel)
@@ -167,7 +181,7 @@ class DeviceView(QWidget):
             button.clicked.connect(lambda checked=False, name=action: self.nav_requested.emit(name))
             nav.addWidget(button)
         nav.addStretch(1)
-        hint = QLabel("Click the screen, then type. Right-click is a long press. Ctrl+C stays on the laptop.")
+        hint = QLabel("Tap the reply box, switch the phone keyboard to Phone Remote, then type. Ctrl+V pastes into the phone. Enter sends. Right-click is a long press.")
         hint.setObjectName("subhead")
         hint.setWordWrap(True)
         actions = QHBoxLayout()
@@ -176,10 +190,13 @@ class DeviceView(QWidget):
         transfer.clicked.connect(self.file_requested.emit)
         clipboard = QPushButton("Clipboard")
         clipboard.clicked.connect(self.clipboard_requested.emit)
+        copy_chat = QPushButton("Copy chat")
+        copy_chat.clicked.connect(self.screen_text_requested.emit)
         settings = QPushButton("Settings")
         settings.clicked.connect(self.settings_requested.emit)
         actions.addWidget(transfer)
         actions.addWidget(clipboard)
+        actions.addWidget(copy_chat)
         actions.addWidget(settings)
         actions.addStretch(1)
         layout = QVBoxLayout(self)

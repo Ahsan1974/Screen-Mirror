@@ -168,6 +168,16 @@ class PhoneClient:
             return
         await self._send({"type": "navigation", "action": action})
 
+    async def send_text(self, text: str) -> None:
+        if not self._authed:
+            return
+        await self._send({"type": "text_insert", "text": text[:CLIPBOARD_MAX_CHARS]})
+
+    async def request_screen_text(self) -> None:
+        if not self._authed:
+            return
+        await self._send({"type": "screen_text"})
+
     async def send_clipboard(self, text: str) -> None:
         if not self._authed:
             return

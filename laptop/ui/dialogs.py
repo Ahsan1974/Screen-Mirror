@@ -117,7 +117,7 @@ class ClipboardDialog(QDialog):
         self.setMinimumSize(460, 320)
         self.editor = QPlainTextEdit()
         self.editor.setPlaceholderText("Clipboard text")
-        send = QPushButton("Send to phone")
+        send = QPushButton("Paste into the phone")
         send.setObjectName("primary")
         send.clicked.connect(self._send)
         pull = QPushButton("Get from phone")

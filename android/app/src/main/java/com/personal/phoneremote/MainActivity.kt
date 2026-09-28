@@ -10,6 +10,7 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -130,6 +131,13 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.accessibilityButton).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
             AppState.log("In Accessibility, open Phone Remote and turn it on")
+        }
+        findViewById<Button>(R.id.keyboardButton).setOnClickListener {
+            startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
+            AppState.log("Turn on the Phone Remote keyboard, then switch to it")
+        }
+        findViewById<Button>(R.id.keyboardSwitchButton).setOnClickListener {
+            getSystemService(InputMethodManager::class.java).showInputMethodPicker()
         }
         findViewById<Button>(R.id.batteryButton).setOnClickListener { askBattery() }
         findViewById<Button>(R.id.clipboardButton).setOnClickListener { sendClipboard() }

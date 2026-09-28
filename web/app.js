@@ -139,9 +139,9 @@ function onText(raw) {
   } else if (type === "stream_state" || type === "status") onStatus(message);
   else if (type === "error") setStatus(message.message || "The phone reported an error.");
   else if (type === "clipboard_data") {
-    $("clip").value = message.text || "";
+    $("prompt").value = message.text || "";
     navigator.clipboard?.writeText(message.text || "").catch(() => {});
-    setStatus("Clipboard received from the phone");
+    setStatus("Copied from the phone");
   } else if (type === "file_start") onFileOffer(message);
   else if (type === "file_accept" || type === "file_reject" || type === "file_done" || type === "file_error") {
     window.dispatchEvent(new CustomEvent("sm-file", { detail: message }));
@@ -201,6 +201,7 @@ function noteLatency(ms) {
 }
 
 function onStatus(message) {
+  if (message.message) setStatus(message.message);
   if (message.screen_width) screenW = message.screen_width;
   if (message.screen_height) screenH = message.screen_height;
   fitDevice();
@@ -276,8 +277,29 @@ canvas.addEventListener("pointerup", (event) => {
 });
 canvas.addEventListener("contextmenu", (event) => event.preventDefault());
 
-window.addEventListener("keydown", (event) => {
-  if (viewer.hidden || event.target.matches("input, textarea")) return;
+function sendPrompt() {
+  const text = $("prompt").value.slice(0, 20000);
+  if (!text.trim()) return;
+  send({ type: "text_insert", text });
+  setStatus("Sending into the phone…");
+}
+
+window.addEventListener("keydown", async (event) => {
+  if (viewer.hidden) return;
+  if (event.target.matches("input, textarea")) {
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      sendPrompt();
+    }
+    return;
+  }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "v") {
+    event.preventDefault();
+    let text = "";
+    try { text = await navigator.clipboard.readText(); } catch { text = $("prompt").value; }
+    if (text) send({ type: "text_insert", text: text.slice(0, 20000) });
+    return;
+  }
   if (event.ctrlKey || event.altKey || event.metaKey) return;
   const key = specialKey(event);
   if (!key) return;
@@ -287,7 +309,7 @@ window.addEventListener("keydown", (event) => {
 
 function specialKey(event) {
   const map = {
-    Enter: "ENTER", Backspace: "BACKSPACE", Delete: "DELETE", Escape: "ESCAPE",
+    Enter: event.shiftKey ? "NEWLINE" : "ENTER", Backspace: "BACKSPACE", Delete: "DELETE", Escape: "ESCAPE",
     ArrowLeft: "LEFT", ArrowRight: "RIGHT", ArrowUp: "UP", ArrowDown: "DOWN", " ": "SPACE",
   };
   if (map[event.key]) return map[event.key];
@@ -299,9 +321,10 @@ document.querySelectorAll("[data-nav]").forEach((button) => {
   button.addEventListener("click", () => send({ type: "navigation", action: button.dataset.nav }));
 });
 
-$("send-clip").addEventListener("click", () => {
-  send({ type: "clipboard_push", text: $("clip").value.slice(0, 256000) });
-  setStatus("Clipboard sent to the phone");
+$("send-prompt").addEventListener("click", sendPrompt);
+$("copy-chat").addEventListener("click", () => {
+  send({ type: "screen_text" });
+  setStatus("Reading the phone screen…");
 });
 $("get-clip").addEventListener("click", () => send({ type: "clipboard_pull" }));
 $("disconnect").addEventListener("click", () => {

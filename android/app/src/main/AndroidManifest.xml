@@ -46,6 +46,19 @@
             android:foregroundServiceType="mediaProjection" />
 
         <service
+            android:name=".input.RemoteInputMethod"
+            android:exported="true"
+            android:label="@string/keyboard_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/remote_keyboard" />
+        </service>
+
+        <service
             android:name=".input.RemoteAccessibilityService"
             android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

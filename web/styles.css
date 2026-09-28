@@ -84,7 +84,7 @@ input, textarea {
 .steps li { margin: 6px 0; }
 
 .viewer {
-  display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px;
   align-items: start; padding-bottom: 24px;
 }
 .stage {

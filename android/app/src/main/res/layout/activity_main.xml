@@ -140,6 +140,24 @@
             android:text="Enable accessibility" />
 
         <Button
+            android:id="@+id/keyboardButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable Phone Remote keyboard" />
+
+        <Button
+            android:id="@+id/keyboardSwitchButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Switch to Phone Remote keyboard" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="For ChatGPT, turn that keyboard on, switch to it, then tap the reply box. The laptop can then type and paste into it." />
+
+        <Button
             android:id="@+id/batteryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -216,6 +216,8 @@ class RemoteServer(
             "stream_start" -> onStreamStart(json)
             "mouse" -> onMouse(json)
             "key" -> onKey(json)
+            "text_insert" -> onTextInsert(json)
+            "screen_text" -> onScreenText()
             "navigation" -> onNavigation(json)
             "file_start" -> {
                 if (isAuthed) files?.onFileStart(json)
@@ -352,6 +354,26 @@ class RemoteServer(
             return
         }
         service.handleKey(json.optString("key", ""))
+    }
+
+    private fun onTextInsert(json: JSONObject) {
+        if (!isAuthed) return
+        val service = RemoteAccessibilityService.instance
+        if (service == null) {
+            InputErrors.report("accessibility_disabled", appContext.getString(R.string.accessibility_required))
+            return
+        }
+        service.insertText(json.optString("text", ""))
+    }
+
+    private fun onScreenText() {
+        if (!isAuthed) return
+        val service = RemoteAccessibilityService.instance
+        if (service == null) {
+            InputErrors.report("accessibility_disabled", appContext.getString(R.string.accessibility_required))
+            return
+        }
+        service.sendScreenText()
     }
 
     private fun onNavigation(json: JSONObject) {

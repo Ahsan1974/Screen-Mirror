@@ -17,12 +17,17 @@ import com.personal.phoneremote.R
  */
 class TextController(private val service: AccessibilityService) {
     fun handle(key: String) {
+        if (key == "ESCAPE") {
+            service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
+            return
+        }
+        if (RemoteInputMethod.instance?.apply(key) == true) return
         when (key) {
-            "ESCAPE" -> service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK)
             "LEFT" -> move(forward = false, line = false)
             "RIGHT" -> move(forward = true, line = false)
             "UP" -> move(forward = false, line = true)
             "DOWN" -> move(forward = true, line = true)
+            "NEWLINE" -> type("NEWLINE")
             else -> type(key)
         }
     }
@@ -79,7 +84,7 @@ class TextController(private val service: AccessibilityService) {
                 updated = inserted.first
                 cursor = inserted.second
             }
-            "ENTER" -> {
+            "ENTER", "NEWLINE" -> {
                 val inserted = insert(original, start, end, "\n")
                 updated = inserted.first
                 cursor = inserted.second
@@ -98,10 +103,7 @@ class TextController(private val service: AccessibilityService) {
         args.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, updated)
         val wrote = node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, args)
         if (!wrote) {
-            InputErrors.report(
-                "input_failed",
-                "This field does not accept typing from Phone Remote. Tap a normal text field on the phone.",
-            )
+            InputErrors.report("input_failed", service.getString(R.string.keyboard_required))
             return
         }
         val selection = Bundle()

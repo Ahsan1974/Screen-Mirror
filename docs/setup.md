@@ -48,7 +48,7 @@ Those tests cover discovery filtering, pairing, reconnect, the binary headers, a
 
 ## Android
 
-Install `PhoneRemote.apk` (version 1.2 or newer) on the phone. The laptop app can show a local install page, such as `http://192.168.100.28:8088`, which you open in the phone’s Chrome browser. Do not send the APK through WhatsApp. If Google Play Protect blocks it, turn off Scan apps with Play Protect, install, then turn the scan back on. Version 1.2 adds the browser page the office laptop uses. Install that update over the existing app.
+Install `PhoneRemote.apk` (version 1.3 or newer) on the phone. The laptop app can show a local install page, such as `http://192.168.100.28:8088`, which you open in the phone’s Chrome browser. Do not send the APK through WhatsApp. If Google Play Protect blocks it, turn off Scan apps with Play Protect, install, then turn the scan back on. Version 1.2 adds the browser page the office laptop uses. Install that update over the existing app.
 
 The emulator cannot join this Wi-Fi session. Use the real phone.
 
@@ -77,6 +77,17 @@ Use this when the other computer should not have Python installed.
 6. Click the picture, type, and use Back, Home, and Recents. Use the header button to switch light and dark. Use Send to phone for clipboard text.
 
 The Python window on the computer where this project lives still works. Only one of them can be connected at a time.
+
+## ChatGPT
+
+ChatGPT's reply box does not accept normal remote typing. Do this once on the phone:
+
+1. In Phone Remote, tap Enable Phone Remote keyboard. Turn Phone Remote on in the keyboard list.
+2. Tap Switch to Phone Remote keyboard and choose it.
+3. On the laptop, tap the reply box in the mirrored screen so the green "Typing from your laptop" strip appears.
+4. Write the message in the laptop's ChatGPT box and press Send into the phone. Enter sends it. Copy chat brings the visible conversation back to the laptop.
+
+Install the 1.3 phone update before this works. Open the address shown by the laptop app in the phone's Chrome browser.
 
 ## Settings
 

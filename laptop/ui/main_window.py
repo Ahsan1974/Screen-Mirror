@@ -195,6 +195,8 @@ class MainWindow(QMainWindow):
         self.connection_view.forget_requested.connect(self._forget)
         self.device_view.pointer.connect(self.controller.send_mouse)
         self.device_view.key_typed.connect(self.controller.send_key)
+        self.device_view.paste_requested.connect(self.controller.send_text)
+        self.device_view.screen_text_requested.connect(self.controller.request_screen_text)
         self.device_view.nav_requested.connect(self.controller.send_nav)
         self.device_view.file_requested.connect(self._pick_files)
         self.device_view.files_dropped.connect(self._send_paths)
@@ -394,7 +396,7 @@ class MainWindow(QMainWindow):
 
     def _send_clipboard_text(self, text: str) -> None:
         self._last_clip = text
-        self.controller.send_clipboard(text)
+        self.controller.send_text(text)
 
     def _on_phone_clipboard(self, text: str) -> None:
         self._last_clip = text

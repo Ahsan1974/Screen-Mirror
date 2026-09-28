@@ -65,19 +65,20 @@
         <button type="button" data-nav="RECENTS">Recents</button>
       </div>
       <label class="clip-label">
-        Text for the phone clipboard
-        <textarea id="clip" rows="3" placeholder="Paste or type, then send"></textarea>
+        ChatGPT message
+        <textarea id="prompt" rows="6" placeholder="Type the message here, then send it into the phone"></textarea>
       </label>
+      <button id="send-prompt" type="button" class="primary">Send into the phone</button>
       <div class="row">
-        <button id="send-clip" type="button" class="primary">Send to phone</button>
-        <button id="get-clip" type="button">Get from phone</button>
+        <button id="copy-chat" type="button">Copy chat here</button>
+        <button id="get-clip" type="button">Get clipboard</button>
       </div>
       <label class="file">
         Send a file
         <input id="file" type="file">
       </label>
       <p id="transfer" class="meta"></p>
-      <p class="hint">Click the screen, then type. Right-click is a long press. Ctrl+C stays on this laptop; use Send to phone for that text.</p>
+      <p class="hint">Tap the reply box on the screen. On the phone, switch the keyboard to Phone Remote. Ctrl+Enter sends this box. Enter on the screen sends the chat. Shift+Enter adds a line. Ctrl+V pastes into the phone. Copy chat brings the answer back here.</p>
       <button id="disconnect" type="button" class="ghost">Disconnect</button>
     </aside>
   </main>

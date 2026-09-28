@@ -6,4 +6,8 @@
     <string name="projection_required">Screen capture permission is required.\n\nOpen the Android application and allow screen capture.</string>
     <string name="accessibility_required">Back, Home, Recents, touch, and typing need the Phone Remote accessibility service. In the Android app, tap Enable accessibility, then turn Phone Remote on. If Android blocks it, open App info, choose the menu, and tap Allow restricted settings.</string>
     <string name="clipboard_blocked">Android blocked a background clipboard read. Open the Phone Remote app and tap Send clipboard to laptop.</string>
+    <string name="keyboard_name">Phone Remote</string>
+    <string name="keyboard_strip">Typing from your laptop</string>
+    <string name="keyboard_required">Tap the ChatGPT reply box. On the phone, turn on the Phone Remote keyboard and switch to it, then send the text again.</string>
+    <string name="screen_text_empty">No readable text on this screen. Open the chat, then copy again.</string>
 </resources>

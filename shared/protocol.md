@@ -133,6 +133,8 @@ The phone pauses screen frames during a transfer so the socket is not jammed.
 ### Clipboard
 
 ```json
+{"type":"text_insert","text":"Hello"}
+{"type":"screen_text"}
 {"type":"clipboard_push","text":"Hello"}
 {"type":"clipboard_pull"}
 {"type":"clipboard_data","text":"Hello","source":"phone"}

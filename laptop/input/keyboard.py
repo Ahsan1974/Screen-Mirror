@@ -18,6 +18,15 @@ def _as_int(value) -> int:
     return int(raw)
 
 
+def is_paste(key: int, modifiers: int) -> bool:
+    return _as_int(key) == _as_int(Qt.Key_V) and bool(_as_int(modifiers) & _as_int(Qt.ControlModifier))
+
+
+def is_newline(key: int, modifiers: int) -> bool:
+    enter = _as_int(key) in (_as_int(Qt.Key_Return), _as_int(Qt.Key_Enter))
+    return enter and bool(_as_int(modifiers) & _as_int(Qt.ShiftModifier))
+
+
 def translate_key(key: int, text: str, modifiers: int) -> dict | None:
     key = _as_int(key)
     modifiers = _as_int(modifiers)

@@ -152,6 +152,12 @@ class NetworkController(QObject):
     def send_file(self, path: str) -> None:
         self.loop_thread.submit(self.client.send_file(path))
 
+    def send_text(self, text: str) -> None:
+        self.loop_thread.submit(self.client.send_text(text))
+
+    def request_screen_text(self) -> None:
+        self.loop_thread.submit(self.client.request_screen_text())
+
     def send_clipboard(self, text: str) -> None:
         self.loop_thread.submit(self.client.send_clipboard(text))
 
